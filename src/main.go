@@ -1,7 +1,7 @@
 package main
 
 import (
-	terraform_transloadit "transloadit-terraform-provider/src/transloadit"
+	terraform_transloadit "terraform-transloadit-provider/src/transloadit"
 
 	"github.com/hashicorp/terraform/plugin"
 )

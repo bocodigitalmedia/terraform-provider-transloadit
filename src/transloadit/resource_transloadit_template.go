@@ -1,6 +1,7 @@
 package transloadit
 
 import (
+	"log"
 	"sort"
 	"strings"
 
@@ -36,28 +37,14 @@ func resourceTransloaditTemplate() *schema.Resource {
 
 }
 
-func resourceTransloaditTemplateStep() *schema.Resource {
-	return &schema.Resource{
-		SchemaVersion: 1,
-		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"params": {
-				Type:     schema.TypeMap,
-				Required: true,
-			},
-		},
-	}
-}
-
 func resourceTransloaditTemplateExists(d *schema.ResourceData, meta interface{}) (b bool, e error) {
+	log.Println("[INFO] resourceTransloaditTemplateExists called")
 	client := meta.(*Client)
 	return client.TemplateExists(d.Id())
 }
 
 func resourceTransloaditTemplateCreate(d *schema.ResourceData, meta interface{}) error {
+	log.Println("[INFO] resourceTransloaditTemplateCreate called")
 	client := meta.(*Client)
 
 	name := d.Get("name").(string)
@@ -76,6 +63,7 @@ func resourceTransloaditTemplateCreate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTransloaditTemplateRead(d *schema.ResourceData, meta interface{}) error {
+	log.Println("[INFO] resourceTransloaditTemplateRead called")
 	client := meta.(*Client)
 	id := d.Id()
 
@@ -93,6 +81,7 @@ func resourceTransloaditTemplateRead(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTransloaditTemplateUpdate(d *schema.ResourceData, meta interface{}) error {
+	log.Println("[INFO] resourceTransloaditTemplateUpdate called")
 	client := meta.(*Client)
 
 	id := d.Id()
@@ -109,6 +98,7 @@ func resourceTransloaditTemplateUpdate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTransloaditTemplateDelete(d *schema.ResourceData, meta interface{}) error {
+	log.Println("[INFO] resourceTransloaditTemplateDelete called")
 	client := meta.(*Client)
 
 	id := d.Id()
@@ -179,4 +169,22 @@ func createTemplateStepMapFromList(stepList []interface{}) map[string]interface{
 		stepMap[name] = params
 	}
 	return stepMap
+}
+
+func getTemplateStepMapNames(m map[string]interface{}) []string {
+	keys := []string{}
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return keys
+}
+
+func getTemplateStepListNames(l []interface{}) []string {
+	keys := make([]string, len(l))
+
+	for i, v := range l {
+		keys[i] = v.(map[string]interface{})["name"].(string)
+	}
+
+	return keys
 }
