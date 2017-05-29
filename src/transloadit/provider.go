@@ -1,8 +1,6 @@
 package transloadit
 
 import (
-	"log"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -34,9 +32,5 @@ func configureProvider(d *schema.ResourceData) (interface{}, error) {
 		AuthSecret: d.Get("auth_secret").(string),
 	}
 
-	log.Println("[INFO] Initializing Transloadit client")
-
-	client := config.Client()
-
-	return client, nil
+	return config.Client()
 }
