@@ -17,3 +17,7 @@ terraform.tfvars
 terraform.tfstate.*
 terraform.tfstate
 crash.log
+
+*.tf
+*.tfvars
+*.tpl
